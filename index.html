@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Prescription Summary – Kiara Optometry</title>
+
+<style>
+body{
+  margin:0; padding:0;
+  font-family:"Inter","Helvetica Neue",Arial;
+  background:#fff;
+}
+#report-container{
+  width:90%; max-width:580px;
+  margin:20px auto 80px auto;
+  padding-bottom:40px;
+}
+.section{
+  background:#fdfcf7;
+  margin-bottom:20px; padding:20px 18px;
+  border-radius:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+.header-section{ text-align:center; background:#ffffeb; }
+.logo{ width:90px; margin-bottom:10px; }
+.title{ margin:0; font-size:26px; font-weight:300; }
+#exam-datetime{ margin-top:6px; font-size:13px; opacity:.8; }
+#rx-toggle-wrapper{ margin-top:14px; }
+.toggle-label{ font-size:13px; margin-right:8px; }
+.toggle-btn{
+  padding:6px 12px; border:1px solid #0b3d2e;
+  background:#0b3d2e; color:#ffffe0;
+  border-radius:6px; cursor:pointer;
+  font-size:12px; font-weight:300; margin-right:6px;
+}
+.toggle-btn.inactive{
+  background:#ffffe0; color:#0b3d2e;
+}
+h2{
+  margin:0 0 10px 0;
+  font-size:22px; font-weight:300;
+}
+.subhead{
+  font-size:15px; font-weight:300;
+  margin-top:15px; margin-bottom:6px;
+}
+#patient-details,#current-rx,#add-details,
+#final-rx,#final-notes,#final-analysis,#extra-notes{
+  line-height:1.55; font-size:14px; font-weight:300;
+}
+.image-placeholder{
+  background:#fffbd2; padding:40px 10px;
+  border-radius:12px; text-align:center;
+  margin-bottom:14px; font-size:13px; font-weight:300;
+  color:#555; border:1px dashed #c8c08a;
+}
+.footer-section{text-align:center; padding:20px;}
+.qr-placeholder{
+  background:#fffbd2; border:1px dashed #c8c08a;
+  padding:40px 10px; border-radius:12px;
+  font-size:13px; margin-bottom:15px;
+}
+.disclaimer{ font-size:11px; opacity:.7; }
+.footer-brand{margin-top:10px; font-size:13px; font-weight:300;}
+.pdf-button{
+  position:fixed; bottom:20px; left:50%;
+  transform:translateX(-50%);
+  padding:12px 22px; background:#0b3d2e; color:#ffffe0;
+  border:none; border-radius:8px;
+  font-size:14px; font-weight:300; cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<div id="report-container">
+
+  <div class="section header-section">
+    <img src="kiara-logo.png" class="logo">
+    <h1 class="title">Prescription Summary</h1>
+    <div id="exam-datetime"></div>
+
+    <div id="rx-toggle-wrapper">
+      <span class="toggle-label">Show:</span>
+      <button class="toggle-btn" id="toggle-comfy">Comfy Clearer RX</button>
+      <button class="toggle-btn inactive" id="toggle-manual">Manual RX</button>
+    </div>
+  </div>
+
+
+<!-- PATIENT HEADING -->
+<div class="section" id="patient-current-section">
+  <h2 style="margin-top:10px" id="patient-name-h2"></h2>
+</div>
+
+
+<!-- CURRENT PRESCRIPTION -->
+<div class="section" id="patient-current-section">
+  <h2>Current Prescription</h2>
+
+  <div id="patient-subdetails"
+       style="font-size:14px; font-weight:300; margin-bottom:3px; line-height:1.45;">
+  </div>
+
+  <div id="current-rx"></div>
+  <div id="add-details" style="margin-top:10px;"></div>
+
+
+  <div id="exam-details"
+       style="font-size:14px; font-weight:300; line-height:1.55; margin-bottom:12px;">
+  </div>
+
+  <div id="exam-images" style="text-align:center;">
+    <div style="margin-bottom:12px;">
+      <img id="exam-duochrome" src="" style="width:100%; border-radius:12px; display:none;">
+    </div>
+    <div>
+      <img id="exam-fanchart" src="" style="width:100%; border-radius:12px; display:none;">
+    </div>
+  </div>
+</div>
+
+
+
+<!-- COMFY / MANUAL FINAL RX -->
+<div class="section" id="final-rx-section">
+  <h2 id="final-rx-title">Comfy Clearer Prescription</h2>
+  <div id="final-rx"></div>
+
+  <h3 class="subhead">Notes</h3>
+  <div id="final-notes"></div>
+
+  <h3 class="subhead">Analysis</h3>
+  <div id="final-analysis"></div>
+</div>
+
+
+<!-- EXTRA NOTES -->
+<div class="section" id="extra-notes-section">
+  <h2>Additional Notes</h2>
+  <div id="extra-notes"></div>
+</div>
+
+
+<!-- EDUCATION -->
+<div class="section" id="education-section">
+  <h2>Understanding Your Prescription</h2>
+  <div id="education-content">
+    <p><b>SPH:</b> Power for myopia / hyperopia.</p>
+    <p><b>CYL:</b> Astigmatism correction.</p>
+    <p><b>AXIS:</b> Direction of astigmatism (0–180°).</p>
+    <p><b>SE:</b> Overall focusing power.</p>
+    <p><b>DC:</b> Duochrome fine-tune balance.</p>
+    <p><b>ADD:</b> Support for near work.</p>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<div class="section footer-section">
+  <div class="qr-placeholder">[ WhatsApp QR Placeholder ]</div>
+  <p class="disclaimer">This summary is for personal understanding only.</p>
+  <p class="footer-brand">Kiara Optometry</p>
+</div>
+
+<button id="downloadPDF" class="pdf-button">Download PDF</button>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+function fmt(v){
+  if(v===""||v==null) return "";
+  let n=parseFloat(v);
+  if(isNaN(n)) return v;
+  return (n>=0?"+":"") + n.toFixed(2);
+}
+const data = JSON.parse(localStorage.getItem("rxReport") || "{}");
+
+
+
+/* ==============================
+   PATIENT H2 + DATE/TIME
+============================== */
+(function(){
+  const fullName = `${data.suffix || ""} ${data.name || ""}`.trim();
+  const age = data.age || "";
+  const wear = data.currentWear || "";
+
+  const nameH2 = document.getElementById("patient-name-h2");
+  const sub = document.getElementById("patient-subdetails");
+
+  if (!fullName) return;
+
+  const now = new Date();
+  const day = now.getDate();
+  const month = now.toLocaleString("en-GB",{month:"short"});
+  const year = now.getFullYear();
+  const suffix =
+    day % 10 === 1 && day !== 11 ? "st" :
+    day % 10 === 2 && day !== 12 ? "nd" :
+    day % 10 === 3 && day !== 13 ? "rd" : "th";
+  const time = now.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+
+  const dateTime = `${day}${suffix} ${month} ${year} · ${time}`;
+
+  /* FIXED: now printed into exam-datetime */
+  document.getElementById("exam-datetime").textContent = dateTime;
+
+  nameH2.innerHTML = `${fullName} · Age ${age}`;
+
+  const wearCap = wear ? wear.charAt(0).toUpperCase() + wear.slice(1) : "";
+  sub.innerHTML = wearCap ? `RX type: ${wearCap}` : "";
+document.getElementById("exam-datetime").textContent = dateTime;
+
+})();
+
+
+
+
+/* ==============================
+   CURRENT RX
+============================== */
+(function(){
+  document.getElementById("current-rx").innerHTML = `
+<div style="display:flex; justify-content:space-between; max-width:350px;">
+  <div><b>Right :</b> ${data.s1_od} ${data.c1_od} × ${data.a1_od}</div>
+  <div><b>Left :</b> ${data.s1_os} ${data.c1_os} × ${data.a1_os}</div>
+</div>
+<div><b>Bino Difference:</b> Right eye SE ${data.nowSeDiff || "—"}</div>
+`;
+})();
+
+(function(){
+  document.getElementById("add-details").innerHTML =
+    data.add_ou ? `<div><b>Current ADD:</b> ${data.add_ou}</div>` : "";
+})();
+
+
+
+/* ==============================
+   EXAMINATION SECTION
+============================== */
+(function(){
+  const DC_BASE = "https://raw.githubusercontent.com/kiaraoptometrypx/RX-calculator/main/DC%20Defect/";
+  const FC_BASE = "https://raw.githubusercontent.com/kiaraoptometrypx/RX-calculator/main/FC%20Defect/";
+
+  const DC_MAP = {
+    red:   DC_BASE + "Red.png",
+    green: DC_BASE + "Green.png",
+    same:  DC_BASE + "Same.png",
+  };
+
+  function nearestAxisImg(axisVal){
+    if (isNaN(axisVal)) return "";
+    let shifted = axisVal + 90;
+    if (shifted > 180) shifted -= 180;
+
+    const angles = [15,30,45,60,75,90,105,120,135,150,165,180];
+    const closest = angles.reduce((a,b)=>
+      Math.abs(b-shifted) < Math.abs(a-shifted) ? b : a
+    );
+
+    return FC_BASE + closest + ".png";
+  }
+
+  const dcVal = fmt(data["dc-sph-ou"]);
+
+  const axisVal = parseFloat(data["a2-ou"] || NaN);
+
+  let dcImg = DC_MAP.same;
+  if (!isNaN(dcVal)){
+    if (dcVal > 0) dcImg = DC_MAP.green;
+    else if (dcVal < 0) dcImg = DC_MAP.red;
+  }
+
+  const fcImg = !isNaN(axisVal) ? nearestAxisImg(axisVal) : "";
+
+let analysisText = "";
+if (!isNaN(dcVal)) {
+  if (dcVal > 0) {
+    analysisText = `RX is on the stronger side. Needs ${fmt(dcVal)} to balance.`;
+  } else if (dcVal < 0) {
+    analysisText = `RX is on the weaker side. Needs ${fmt(dcVal)} to balance.`;
+  } else {
+    analysisText = `RX is balanced for both far and near`;
+  }
+}
+
+document.getElementById("exam-details").innerHTML = `
+  <div><b>Duochrome Status :</b> ${analysisText}
+</div>
+<div>
+  <b>Astigmatism Status :</b>
+  ${
+    isNaN(axisVal)
+      ? "—"
+      : `
+        Angles around ${axisVal}° are stronger.
+      Needs ${data.c2_ou || "—"} along that angle to balance.
+      `
+  }
+</div>
+
+
+  <div style="margin-top:8px; font-style:italic; color:#555;">
+  </div>
+`;
+
+
+  const imgDuo = document.getElementById("exam-duochrome");
+  imgDuo.src = dcImg;
+  imgDuo.style.display = "block";
+
+  const imgFan = document.getElementById("exam-fanchart");
+  imgFan.src = fcImg;
+  imgFan.style.display = "block";
+})();
+
+
+
+/* ==============================
+   COMFY / MANUAL FINAL RX
+============================== */
+const btnComfy = document.getElementById("toggle-comfy");
+const btnManual = document.getElementById("toggle-manual");
+const titleFinal = document.getElementById("final-rx-title");
+const finalRX = document.getElementById("final-rx");
+const finalNotes = document.getElementById("final-notes");
+const finalAnalysis = document.getElementById("final-analysis");
+
+function loadComfy(){
+  titleFinal.textContent="Comfy Clearer Prescription";
+  finalRX.innerHTML = `
+    <div><b>Right:</b> ${data.comfyR?.sph} ${data.comfyR?.cyl} × ${data.comfyR?.axis} (${data.comfyR?.dc})</div>
+    <div><b>Left:</b> ${data.comfyL?.sph} ${data.comfyL?.cyl} × ${data.comfyL?.axis} (${data.comfyL?.dc})</div>
+    <div style="margin-top:6px;"><b>Bino Difference:</b> Right Eye SE ${data.comfySeDiff || "—"}</div>
+  `;
+  finalNotes.textContent = data.comfyNotes || "—";
+  finalAnalysis.innerHTML = data.comfyAnalysis?.replace(/\n/g,"<br>") || "—";
+  btnComfy.classList.remove("inactive");
+  btnManual.classList.add("inactive");
+}
+
+function loadManual(){
+  titleFinal.textContent="Manual Prescription";
+  finalRX.innerHTML = `
+    <div><b>Right:</b> ${data.manualR?.sph} ${data.manualR?.cyl} × ${data.manualR?.axis} (${data.manualR?.dc})</div>
+    <div><b>Left:</b> ${data.manualL?.sph} ${data.manualL?.cyl} × ${data.manualL?.axis} (${data.manualL?.dc})</div>
+  `;
+  finalNotes.textContent = data.manualNotes || "—";
+  finalAnalysis.textContent = "—";
+  btnManual.classList.remove("inactive");
+  btnComfy.classList.add("inactive");
+}
+
+loadComfy();
+btnComfy.onclick = loadComfy;
+btnManual.onclick = loadManual;
+
+
+/* EXTRA NOTES */
+(function(){
+  document.getElementById("extra-notes").innerHTML =
+    (data.extraNotes || "").replace(/\n/g,"<br>");
+})();
+
+
+/* PDF DOWNLOAD */
+document.getElementById("downloadPDF").onclick = async () => {
+  const el = document.getElementById("report-container");
+  const canvas = await html2canvas(el,{scale:2,useCORS:true});
+  const img = canvas.toDataURL("image/png");
+  const pdf = new jspdf.jsPDF({
+    orientation:"p", unit:"px", format:[canvas.width, canvas.height]
+  });
+  pdf.addImage(img,"PNG",0,0,canvas.width,canvas.height);
+  pdf.save("Prescription-Summary.pdf");
+};
+</script>
+
+</body>
+</html>
