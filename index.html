@@ -62,6 +62,14 @@ h2{
   padding:40px 10px; border-radius:12px;
   font-size:13px; margin-bottom:15px;
 }
+.info{
+  font-size:13px;
+  line-height:1.3;
+  color:#2b2b2b;
+  letter-spacing:0.4px;
+  font-weight:300;
+}
+
 .disclaimer{ font-size:11px; opacity:.7; }
 .footer-brand{margin-top:10px; font-size:13px; font-weight:300;}
 .pdf-button{
@@ -80,8 +88,6 @@ h2{
 <div id="report-container">
 
   <div class="section header-section">
-    <img src="kiara-logo.png" class="logo">
-    <h1 class="title">Prescription Summary</h1>
     <div id="exam-datetime"></div>
 
     <div id="rx-toggle-wrapper">
@@ -103,33 +109,56 @@ h2{
   <h2>Current Prescription</h2>
 
   <div id="patient-subdetails"
-       style="font-size:14px; font-weight:300; margin-bottom:3px; line-height:1.45;">
+       style="font-size:14px;">
   </div>
 
-  <div id="current-rx"></div>
+  <div id="current-rx" style="margin-top:10px;"></div>
   <div id="add-details" style="margin-top:10px;"></div>
 
 
-  <div id="exam-details"
-       style="font-size:14px; font-weight:300; line-height:1.55; margin-bottom:12px;">
+
+<div style="height:20px"></div>
+<h2>1. Prescription Strength Test</h2>
+<p class="info"><i>Duochrome chart tells whether the prescription is too strong, too weak or just nice. Lenses are changed, and then the clarity in the red and blue/green are compared. The correct prescription makes both side equal. </i></p>
+
+<div id="exam-images-duo" style="text-align:center; margin-bottom:20px;">
+  <div id="exam-duochrome-details"
+       style="font-size:14px; font-weight:300; line-height:1.55; margin-top:8px; text-align:left">
   </div>
 
-  <div id="exam-images" style="text-align:center;">
-    <div style="margin-bottom:12px;">
-      <img id="exam-duochrome" src="" style="width:100%; border-radius:12px; display:none;">
-    </div>
-    <div>
-      <img id="exam-fanchart" src="" style="width:100%; border-radius:12px; display:none;">
-    </div>
+  <div style="width:100%; overflow:hidden; border:1px solid lightgrey; border-radius:12px;">
+    <img id="exam-duochrome"
+         src=""
+         style="width:100%; margin-top:-5px; margin-bottom:-5px; display:none;">
   </div>
 </div>
 
+<div style="height:20px"></div>
+
+<h2>2. Astigmatism Test</h2>
+<p class="info"><i>Astigmatism is the condition where different parts of the vision require different power; and Fan Chart is used to measure the amount and position. The correct prescription makes all lines equal. </i></p>
+
+<div id="exam-images-fan" style="text-align:center; margin-bottom:20px;">
+  <div id="exam-astig-details"
+       style="font-size:14px; font-weight:300; line-height:1.55; margin-top:8px; text-align:left">
+  </div>
+  <div style="width:100%; overflow:hidden; border:1px solid lightgrey; border-radius:12px;">
+    <img id="exam-fanchart"
+         src=""
+         style="width:100%; margin-top:-5px; margin-bottom:-5px; display:none;">
+  </div>
+
+</div>
+
+</div>
 
 
 <!-- COMFY / MANUAL FINAL RX -->
 <div class="section" id="final-rx-section">
   <h2 id="final-rx-title">Comfy Clearer Prescription</h2>
-  <div id="final-rx"></div>
+<div id="patient-weartype"></div>
+
+  <div id="final-rx" style="margin-top:10px;"></div>
 
   <h3 class="subhead">Notes</h3>
   <div id="final-notes"></div>
@@ -238,7 +267,16 @@ document.getElementById("exam-datetime").textContent = dateTime;
 
 })();
 
+/* ==============================
+   WEAR TYPE (copy of currentWear)
+============================== */
+(function(){
+  const wear = data.wearType || "";
+  const wearCap = wear ? wear.charAt(0).toUpperCase() + wear.slice(1) : "";
 
+  document.getElementById("patient-weartype").innerHTML =
+    wearCap ? `RX Type: ${wearCap}` : "";
+})();
 
 
 /* ==============================
@@ -250,7 +288,7 @@ document.getElementById("exam-datetime").textContent = dateTime;
   <div><b>Right :</b> ${data.s1_od} ${data.c1_od} × ${data.a1_od}</div>
   <div><b>Left :</b> ${data.s1_os} ${data.c1_os} × ${data.a1_os}</div>
 </div>
-<div><b>Bino Difference:</b> Right eye SE ${data.nowSeDiff || "—"}</div>
+<div><b>Bino Difference Right VS Left Eye :</b> SE ${data.nowSeDiff || "—"}</div>
 `;
 })();
 
@@ -302,33 +340,32 @@ document.getElementById("exam-datetime").textContent = dateTime;
 let analysisText = "";
 if (!isNaN(dcVal)) {
   if (dcVal > 0) {
-    analysisText = `RX is on the stronger side. Needs ${fmt(dcVal)} to balance.`;
+    analysisText = `Prescription slightly strong. Needs ${fmt(dcVal)} to balance.`;
   } else if (dcVal < 0) {
-    analysisText = `RX is on the weaker side. Needs ${fmt(dcVal)} to balance.`;
+    analysisText = `Prescription slightly weak. Needs ${fmt(dcVal)} to balance.`;
   } else {
     analysisText = `RX is balanced for both far and near`;
   }
 }
 
-document.getElementById("exam-details").innerHTML = `
-  <div><b>Duochrome Status :</b> ${analysisText}
-</div>
-<div>
-  <b>Astigmatism Status :</b>
-  ${
-    isNaN(axisVal)
-      ? "—"
-      : `
-        Angles around ${axisVal}° are stronger.
-      Needs ${data.c2_ou || "—"} along that angle to balance.
-      `
-  }
-</div>
-
-
-  <div style="margin-top:8px; font-style:italic; color:#555;">
-  </div>
+// --- Duochrome ---
+document.getElementById("exam-duochrome-details").innerHTML = `
+  <div><b>Your Duochrome :</b> ${analysisText}</div>
 `;
+
+
+// --- Astigmatism ---
+const axisText = isNaN(axisVal)
+  ? "—"
+  : `
+      Areas at ${axisVal}° are stronger.
+      Needs ${data.c2_ou || "—"} to balance.
+    `;
+
+document.getElementById("exam-astig-details").innerHTML = `
+  <div><b>Your Fan Chart :</b>${axisText}</div>
+`;
+
 
 
   const imgDuo = document.getElementById("exam-duochrome");
@@ -353,11 +390,23 @@ const finalNotes = document.getElementById("final-notes");
 const finalAnalysis = document.getElementById("final-analysis");
 
 function loadComfy(){
-  titleFinal.textContent="Comfy Clearer Prescription";
+  titleFinal.textContent="New Prescription";
   finalRX.innerHTML = `
-    <div><b>Right:</b> ${data.comfyR?.sph} ${data.comfyR?.cyl} × ${data.comfyR?.axis} (${data.comfyR?.dc})</div>
-    <div><b>Left:</b> ${data.comfyL?.sph} ${data.comfyL?.cyl} × ${data.comfyL?.axis} (${data.comfyL?.dc})</div>
-    <div style="margin-top:6px;"><b>Bino Difference:</b> Right Eye SE ${data.comfySeDiff || "—"}</div>
+<div style="display:flex; justify-content:space-between; max-width:350px;">
+  <div>
+    <b>Right :</b>
+    ${data.comfyR?.sph} ${data.comfyR?.cyl} × ${data.comfyR?.axis} 
+  </div>
+
+  <div>
+    <b>Left :</b>
+    ${data.comfyL?.sph} ${data.comfyL?.cyl} × ${data.comfyL?.axis} 
+  </div>
+</div>
+
+<div>
+  <b>Bino Difference Right VS Left Eye :</b> SE ${data.comfySeDiff || "—"}
+</div>
   `;
   finalNotes.textContent = data.comfyNotes || "—";
   finalAnalysis.innerHTML = data.comfyAnalysis?.replace(/\n/g,"<br>") || "—";
