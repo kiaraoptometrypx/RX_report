@@ -30,13 +30,18 @@ body{
 #rx-toggle-wrapper{ margin-top:14px; }
 .toggle-label{ font-size:13px; margin-right:8px; }
 .toggle-btn{
-  padding:6px 12px; border:1px solid #0b3d2e;
-  background:#0b3d2e; color:#ffffe0;
-  border-radius:6px; cursor:pointer;
-  font-size:12px; font-weight:300; margin-right:6px;
+  padding:6px 12px;
+  border:1px solid black;
+  background:black;          /* ACTIVE */
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:300;
+  margin-right:6px;
 }
 .toggle-btn.inactive{
-  background:#ffffe0; color:#0b3d2e;
+  background:#fff; color:black;
 }
 h2{
   margin:0 0 10px 0;
@@ -46,9 +51,22 @@ h2{
   font-size:15px; font-weight:300;
   margin-top:15px; margin-bottom:6px;
 }
-#patient-details,#current-rx,#add-details,
-#final-rx,#final-notes,#final-analysis,#extra-notes{
-  line-height:1.55; font-size:14px; font-weight:300;
+#patient-details,
+#current-rx,
+#add-details,
+#final-rx-section,
+#patient-weartype,
+#final-rx,
+#final-notes,
+#final-analysis,
+#final-analysis-sph,
+#final-analysis-cylax,
+#extra-notes {
+  line-height: 1.3;
+  font-size: 14px;
+  font-weight: 300;
+}
+
 }
 .image-placeholder{
   background:#fffbd2; padding:40px 10px;
@@ -72,14 +90,25 @@ h2{
 
 .disclaimer{ font-size:11px; opacity:.7; }
 .footer-brand{margin-top:10px; font-size:13px; font-weight:300;}
+/* PDF button also converted */
 .pdf-button{
-  position:fixed; bottom:20px; left:50%;
+  position:fixed;
+  bottom:20px;
+  left:50%;
   transform:translateX(-50%);
-  padding:12px 22px; background:#0b3d2e; color:#ffffe0;
-  border:none; border-radius:8px;
-  font-size:14px; font-weight:300; cursor:pointer;
+  padding:12px 22px;
+  background:black;
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:300;
+  cursor:pointer;
   box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
+.cl-line { font-size:14px; color:#333; }
+
+
 </style>
 </head>
 
@@ -87,20 +116,20 @@ h2{
 
 <div id="report-container">
 
-  <div class="section header-section">
-    <div id="exam-datetime"></div>
 
     <div id="rx-toggle-wrapper">
       <span class="toggle-label">Show:</span>
       <button class="toggle-btn" id="toggle-comfy">Comfy Clearer RX</button>
       <button class="toggle-btn inactive" id="toggle-manual">Manual RX</button>
     </div>
-  </div>
 
 
 <!-- PATIENT HEADING -->
+<div style="height:20px"></div>
 <div class="section" id="patient-current-section">
   <h2 style="margin-top:10px" id="patient-name-h2"></h2>
+    <div id="exam-datetime"></div>
+
 </div>
 
 
@@ -118,8 +147,8 @@ h2{
 
 
 <div style="height:20px"></div>
-<h2>1. Prescription Strength Test</h2>
-<p class="info"><i>Duochrome chart tells whether the prescription is too strong, too weak or just nice. Lenses are changed, and then the clarity in the red and blue/green are compared. The correct prescription makes both side equal. </i></p>
+<h2>Short & Long Sighted Test</h2>
+<p class="info"><i>Short & long-sighted vision is measured using the duochrome chart. The clarity in the red and blue are compared. The correct prescription makes both side equal. </i></p>
 
 <div id="exam-images-duo" style="text-align:center; margin-bottom:20px;">
   <div id="exam-duochrome-details"
@@ -129,14 +158,14 @@ h2{
   <div style="width:100%; overflow:hidden; border:1px solid lightgrey; border-radius:12px;">
     <img id="exam-duochrome"
          src=""
-         style="width:100%; margin-top:-5px; margin-bottom:-5px; display:none;">
+         style="width:100%; margin-top:-40px; margin-bottom:-20px; display:none;">
   </div>
 </div>
 
 <div style="height:20px"></div>
 
-<h2>2. Astigmatism Test</h2>
-<p class="info"><i>Astigmatism is the condition where different parts of the vision require different power; and Fan Chart is used to measure the amount and position. The correct prescription makes all lines equal. </i></p>
+<h2>Astigmatism Test</h2>
+<p class="info"><i>Astigmatism is when the vision requires different power at different angles. The Fan Chart is used to measure the power. The correct prescription makes all lines equal. </i></p>
 
 <div id="exam-images-fan" style="text-align:center; margin-bottom:20px;">
   <div id="exam-astig-details"
@@ -145,7 +174,7 @@ h2{
   <div style="width:100%; overflow:hidden; border:1px solid lightgrey; border-radius:12px;">
     <img id="exam-fanchart"
          src=""
-         style="width:100%; margin-top:-5px; margin-bottom:-5px; display:none;">
+         style="width:100%; margin-top:-4px; margin-bottom:-20px; display:none;">
   </div>
 
 </div>
@@ -155,23 +184,25 @@ h2{
 
 <!-- COMFY / MANUAL FINAL RX -->
 <div class="section" id="final-rx-section">
-  <h2 id="final-rx-title">Comfy Clearer Prescription</h2>
+  <h2 id="final-rx-title">New Prescription</h2>
 <div id="patient-weartype"></div>
 
-  <div id="final-rx" style="margin-top:10px;"></div>
-
-  <h3 class="subhead">Notes</h3>
-  <div id="final-notes"></div>
-
-  <h3 class="subhead">Analysis</h3>
-  <div id="final-analysis"></div>
+  <div id="final-rx"></div>
 </div>
 
 
 <!-- EXTRA NOTES -->
+<div class="section" id="Summary">
+  <h2>Summary</h2>
+<div id="final-analysis"></div>
+<div id="final-analysis-sph"></div>
+<div id="final-analysis-cylax"></div>
+
+</div>
+
 <div class="section" id="extra-notes-section">
-  <h2>Additional Notes</h2>
-  <div id="extra-notes"></div>
+  <h2>Extra Notes</h2>
+  <div id="final-notes"></div>
 </div>
 
 
@@ -325,9 +356,17 @@ document.getElementById("exam-datetime").textContent = dateTime;
     return FC_BASE + closest + ".png";
   }
 
-  const dcVal = fmt(data["dc-sph-ou"]);
+  // === NEW: Bal.png logic for c2_ou ===
+  function getBalImg(c2_ou){
+    const v = parseFloat(c2_ou);
+    if (isNaN(v) || v === 0) return FC_BASE + "Bal.png";
+    return "";
+  }
+  // ====================================
 
+  const dcVal = fmt(data["dc-sph-ou"]);
   const axisVal = parseFloat(data["a2-ou"] || NaN);
+  const c2ou = data.c2_ou;
 
   let dcImg = DC_MAP.same;
   if (!isNaN(dcVal)){
@@ -335,37 +374,56 @@ document.getElementById("exam-datetime").textContent = dateTime;
     else if (dcVal < 0) dcImg = DC_MAP.red;
   }
 
-  const fcImg = !isNaN(axisVal) ? nearestAxisImg(axisVal) : "";
+  // --- Fan Chart image decision ---
+  let fcImg = "";
+  const balImg = getBalImg(c2ou);    // auto Bal.png check first
 
-let analysisText = "";
-if (!isNaN(dcVal)) {
-  if (dcVal > 0) {
-    analysisText = `Prescription slightly strong. Needs ${fmt(dcVal)} to balance.`;
-  } else if (dcVal < 0) {
-    analysisText = `Prescription slightly weak. Needs ${fmt(dcVal)} to balance.`;
+  if (balImg){
+    fcImg = balImg;
+  } else if (!isNaN(axisVal)) {
+    fcImg = nearestAxisImg(axisVal);
+  }
+
+  let analysisText = "";
+  if (!isNaN(dcVal)) {
+    if (dcVal > 0) {
+      analysisText = `is slightly strong. Needs ${fmt(dcVal)} to balance.`;
+    } else if (dcVal < 0) {
+      analysisText = `is slightly weak. Needs ${fmt(dcVal)} to balance.`;
+    } else {
+      analysisText = `is balanced for both far and near`;
+    }
+  }
+
+  // --- Duochrome ---
+  document.getElementById("exam-duochrome-details").innerHTML = `
+    <div><b>Your current RX </b> ${analysisText}</div>
+  `;
+
+// --- Astigmatism ---
+let axisText = "—";
+
+// c2ou already available
+const cylVal = parseFloat(c2ou);
+
+if (isNaN(axisVal)) {
+  axisText = "—";
+} else {
+  if (isNaN(cylVal) || cylVal === 0) {
+    axisText = `
+      is equal and optimum at all angles.
+    `;
   } else {
-    analysisText = `RX is balanced for both far and near`;
+    axisText = `
+      is stronger at ${axisVal}°.
+      Needs ${c2ou} to balance.
+    `;
   }
 }
 
-// --- Duochrome ---
-document.getElementById("exam-duochrome-details").innerHTML = `
-  <div><b>Your Duochrome :</b> ${analysisText}</div>
-`;
-
-
-// --- Astigmatism ---
-const axisText = isNaN(axisVal)
-  ? "—"
-  : `
-      Areas at ${axisVal}° are stronger.
-      Needs ${data.c2_ou || "—"} to balance.
-    `;
-
 document.getElementById("exam-astig-details").innerHTML = `
-  <div><b>Your Fan Chart :</b>${axisText}</div>
+  <div><b>Your current RX </b>${axisText}</div>
 `;
-
 
 
   const imgDuo = document.getElementById("exam-duochrome");
@@ -379,6 +437,61 @@ document.getElementById("exam-astig-details").innerHTML = `
 
 
 
+
+
+
+
+/* =========================
+   CONTACT LENS CONVERTER
+========================= */
+const CL_CYL_STEPS=[-0.75,-1.25,-1.75,-2.25,-2.75];
+
+function glassesToCL(F){ const d=0.009; return F/(1 - d*F); }
+function r025(x){
+  return Math.round(x * 4) / 4;
+}function roundUp025(x){ return Math.ceil(x/0.25)*0.25; }
+function nearest(arr,val){ return arr.reduce((b,v)=>Math.abs(v-val)<Math.abs(b-val)?v:b,arr[0]); }
+
+function flatterAxis(a){
+  a = parseFloat(a) || 0;
+  if (a <= 0) a = 180;
+  const R = Math.round(a / 10) * 10;
+  return R > 180 ? 180 : R;
+}
+
+function convertToCL(S, C, A) {
+  S = parseFloat(S) || 0;
+  C = parseFloat(C) || 0;
+  A = parseFloat(A) || 0;
+
+  const total = S + C;
+  const convS = glassesToCL(S);
+  const convT = glassesToCL(total);
+  const rawCyl = convT - convS;
+
+  const cylRounded = nearest(CL_CYL_STEPS, rawCyl);
+  const sphereRounded = r025(convS);  // ← FIXED
+
+  const axisRounded = flatterAxis(A);
+
+if (Math.abs(rawCyl) < 0.375){
+    const SE = r025(convS + rawCyl/2);
+    return { S: SE, C: 0, A: null };
+}
+
+
+  const diff = rawCyl - cylRounded;
+  const correctedSphere = r025(sphereRounded + diff/2); // ← FIXED
+
+  return {
+    S: correctedSphere,
+    C: cylRounded,
+    A: axisRounded
+  };
+}
+
+
+
 /* ==============================
    COMFY / MANUAL FINAL RX
 ============================== */
@@ -387,48 +500,163 @@ const btnManual = document.getElementById("toggle-manual");
 const titleFinal = document.getElementById("final-rx-title");
 const finalRX = document.getElementById("final-rx");
 const finalNotes = document.getElementById("final-notes");
-const finalAnalysis = document.getElementById("final-analysis");
+const finalAnalysis      = document.getElementById("final-analysis");
+const finalAnalysisSph   = document.getElementById("final-analysis-sph");
+const finalAnalysisCylAx = document.getElementById("final-analysis-cylax");
+
 
 function loadComfy(){
-  titleFinal.textContent="New Prescription";
+  titleFinal.textContent = "New Prescription";
+
+  const fmtPlus = v => (v > 0 ? "+" + v.toFixed(2) : v.toFixed(2));
+
+  const rSph = parseFloat(data.comfyR?.sph) || 0;
+  const lSph = parseFloat(data.comfyL?.sph) || 0;
+
+  const rCyl = parseFloat(data.comfyR?.cyl) || 0;
+  const lCyl = parseFloat(data.comfyL?.cyl) || 0;
+
+  const rAxis = parseFloat(data.comfyR?.axis) || 0;
+  const lAxis = parseFloat(data.comfyL?.axis) || 0;
+
+  const rDist = rSph - 0.25,  lDist = lSph - 0.25;
+  const rComp = rSph + 0.50,  lComp = lSph + 0.50;
+
+  const rCL_bal  = convertToCL(rSph,  rCyl, rAxis);
+  const lCL_bal  = convertToCL(lSph,  lCyl, lAxis);
+
+  const rCL_dist = convertToCL(rDist, rCyl, rAxis);
+  const lCL_dist = convertToCL(lDist, lCyl, lAxis);
+
+  const rCL_comp = convertToCL(rComp, rCyl, rAxis);
+  const lCL_comp = convertToCL(lComp, lCyl, lAxis);
+
+
+  // === RX HTML ===
   finalRX.innerHTML = `
-<div style="display:flex; justify-content:space-between; max-width:350px;">
-  <div>
-    <b>Right :</b>
-    ${data.comfyR?.sph} ${data.comfyR?.cyl} × ${data.comfyR?.axis} 
+<div style="max-width:450px; line-height:1.3;">
+
+  <!-- A -->
+  <div><b>A. Balanced Vision :</b></div>
+  <div style="display:flex; justify-content:space-between; gap:8px; margin:6px 0 14px 0;">
+    <div style="width:85px;">
+      <b>Spectacles</b><br>
+      <span class="cl-line"><b>Contact Lens</b></span>
+    </div>
+
+    <div>
+      <b>Right :</b> ${fmtPlus(rSph)} ${fmtPlus(rCyl)} × ${rAxis}<br>
+      <span class="cl-line">
+        Right : ${fmtPlus(rCL_bal.S)} ${rCL_bal.C ? fmtPlus(rCL_bal.C) + " × " + rCL_bal.A : ""}
+      </span>
+    </div>
+
+    <div>
+      <b>Left :</b> ${fmtPlus(lSph)} ${fmtPlus(lCyl)} × ${lAxis}<br>
+      <span class="cl-line">
+        Left : ${fmtPlus(lCL_bal.S)} ${lCL_bal.C ? fmtPlus(lCL_bal.C) + " × " + lCL_bal.A : ""}
+      </span>
+    </div>
   </div>
 
-  <div>
-    <b>Left :</b>
-    ${data.comfyL?.sph} ${data.comfyL?.cyl} × ${data.comfyL?.axis} 
+  <!-- B -->
+  <div><b>B. Distance Preferred :</b></div>
+  <div style="display:flex; justify-content:space-between; gap:8px; margin:6px 0 14px 0;">
+    <div style="width:85px;">
+      <b>Spectacles</b><br>
+      <span class="cl-line"><b>Contact Lens</b></span>
+    </div>
+
+    <div>
+      <b>Right :</b> ${fmtPlus(rDist)} ${fmtPlus(rCyl)} × ${rAxis}<br>
+      <span class="cl-line">
+        Right : ${fmtPlus(rCL_dist.S)} ${rCL_dist.C ? fmtPlus(rCL_dist.C) + " × " + rCL_dist.A : ""}
+      </span>
+    </div>
+
+    <div>
+      <b>Left :</b> ${fmtPlus(lDist)} ${fmtPlus(lCyl)} × ${lAxis}<br>
+      <span class="cl-line">
+        Left : ${fmtPlus(lCL_dist.S)} ${lCL_dist.C ? fmtPlus(lCL_dist.C) + " × " + lCL_dist.A : ""}
+      </span>
+    </div>
   </div>
+
+  <!-- C -->
+  <div><b>C. Laptop / Computer (+0.50) :</b></div>
+  <div style="display:flex; justify-content:space-between; gap:8px; margin:6px 0 0px 0;">
+    <div style="width:85px;">
+      <b>Spectacles</b><br>
+      <span class="cl-line"><b>Contact Lens</b></span>
+    </div>
+
+    <div>
+      <b>Right :</b> ${fmtPlus(rComp)} ${fmtPlus(rCyl)} × ${rAxis}<br>
+      <span class="cl-line">
+        Right : ${fmtPlus(rCL_comp.S)} ${rCL_comp.C ? fmtPlus(rCL_comp.C) + " × " + rCL_comp.A : ""}
+      </span>
+    </div>
+
+    <div>
+      <b>Left :</b> ${fmtPlus(lComp)} ${fmtPlus(lCyl)} × ${lAxis}<br>
+      <span class="cl-line">
+        Left : ${fmtPlus(lCL_comp.S)} ${lCL_comp.C ? fmtPlus(lCL_comp.C) + " × " + lCL_comp.A : ""}
+      </span>
+    </div>
+  </div>
+
 </div>
 
-<div>
-  <b>Bino Difference Right VS Left Eye :</b> SE ${data.comfySeDiff || "—"}
-</div>
-  `;
+<br>
+
+<div><b>Bino Difference Right VS Left Eye :</b> SE ${data.comfySeDiff || "—"}</div>
+`;
+
+
+  // === ANALYSIS — standardized 100% same style ===
   finalNotes.textContent = data.comfyNotes || "—";
-  finalAnalysis.innerHTML = data.comfyAnalysis?.replace(/\n/g,"<br>") || "—";
+
+  finalAnalysis.innerHTML =
+    data.comfyAnalysis?.replace(/\n/g,"<br>") || "—";
+
+  finalAnalysisSph.innerHTML =
+    data.comfyAnalysisSph?.replace(/\n/g,"<br>") || "—";
+
+  finalAnalysisCylAx.innerHTML =
+    data.comfyAnalysisCylAx?.replace(/\n/g,"<br>") || "—";
+
+
   btnComfy.classList.remove("inactive");
   btnManual.classList.add("inactive");
 }
 
+
+
+/* =======================
+     MANUAL MODE
+======================= */
 function loadManual(){
-  titleFinal.textContent="Manual Prescription";
+  titleFinal.textContent = "Manual Prescription";
   finalRX.innerHTML = `
-    <div><b>Right:</b> ${data.manualR?.sph} ${data.manualR?.cyl} × ${data.manualR?.axis} (${data.manualR?.dc})</div>
-    <div><b>Left:</b> ${data.manualL?.sph} ${data.manualL?.cyl} × ${data.manualL?.axis} (${data.manualL?.dc})</div>
-  `;
+<div><b>Right:</b> ${data.manualR?.sph} ${data.manualR?.cyl} × ${data.manualR?.axis} (${data.manualR?.dc})</div>
+<div><b>Left:</b> ${data.manualL?.sph} ${data.manualL?.cyl} × ${data.manualL?.axis} (${data.manualL?.dc})</div>
+`;
+
   finalNotes.textContent = data.manualNotes || "—";
   finalAnalysis.textContent = "—";
+
   btnManual.classList.remove("inactive");
   btnComfy.classList.add("inactive");
 }
 
+
+/* =======================
+    INITIAL LOAD
+======================= */
 loadComfy();
 btnComfy.onclick = loadComfy;
 btnManual.onclick = loadManual;
+
 
 
 /* EXTRA NOTES */
