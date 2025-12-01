@@ -49,8 +49,10 @@ body{
   background:#fff; color:black;
 }
 h2{
-  margin:0 0 10px 0;
   font-size:22px; font-weight:300;
+}
+h3{
+font-size:17px; font-weight:300;
 }
 .subhead{
   font-size:15px; font-weight:300;
@@ -157,14 +159,30 @@ h2{
 
 <div id="exam-images-duo" style="text-align:center; margin-bottom:20px;">
   <div id="exam-duochrome-details"
-       style="font-size:14px; font-weight:300; line-height:1.55; margin-top:8px; text-align:left">
-  </div>
+       style="text-align:left"> </div>
 
-  <div style="width:100%; overflow:hidden; border:1px solid lightgrey; border-radius:12px;">
-    <img id="exam-duochrome"
-         src=""
-         style="width:100%; margin-top:-40px; margin-bottom:-20px; display:none;">
-  </div>
+
+
+<div style="width:100%; overflow:hidden; border:1px solid lightgrey; border-radius:12px; text-align:center; background:#fff;">
+  <img id="exam-duochrome"
+       src=""
+       style="width:100%; display:block; margin-top:70px; margin-bottom:70px; transform: scale(1.6); transform-origin: center center; margin-left:-10px">
+</div>
+
+
+
+
+
+<div style="height:10px"></div>
+
+<div style="width:100%; background:#fff; display:flex; justify-content:center; overflow:hidden; border:1px solid lightgrey; border-radius:12px; margin-bottom:20px;">
+  <img src="https://raw.githubusercontent.com/kiaraoptometrypx/RX-calculator/main/DC%20Defect/Defects_type.png" 
+       style="width:80%; margin-bottom:0px; margin-top:0px; display:block;">
+</div>
+
+
+
+
 </div>
 
 <div style="height:20px"></div>
@@ -307,19 +325,20 @@ const data = JSON.parse(localStorage.getItem("rxReport") || "{}");
 (function(){
   const wear = data.wearType || "";
   const wearCap = wear ? wear.charAt(0).toUpperCase() + wear.slice(1) : "";
+const fmtVal = v => v || "—";
+document.getElementById("current-rx").innerHTML = `
+  <div style="font-size:11px;">
+    <div><b>RX type :</b> ${wearCap || "—"}</div>
 
-  document.getElementById("current-rx").innerHTML = `
+    <div style="display:flex; justify-content:space-between; max-width:350px; margin:5px 0 5px 0; font-size:11px;">
+      <div><b>Right :</b> ${fmtVal(data.s1_od)} ${fmtVal(data.c1_od)} × ${fmtVal(data.a1_od)}</div>
+      <div><b>Left :</b> ${fmtVal(data.s1_os)} ${fmtVal(data.c1_os)} × ${fmtVal(data.a1_os)}</div>
+    </div>
 
-  <div><b>RX type :</b> ${wearCap || "—"}</div>
-
-
-  <div style="display:flex; justify-content:space-between; max-width:350px; margin:5px 0 5px 0">
-
-    <div><b>Right :</b> ${data.s1_od} ${data.c1_od} × ${data.a1_od}</div>
-    <div><b>Left :</b> ${data.s1_os} ${data.c1_os} × ${data.a1_os}</div>
+    <div style="font-size:11px;">Right SE ${fmtVal(data.nowSeDiff)} vs Left SE</div>
   </div>
-  <div>Right SE ${data.nowSeDiff || "—"} vs Left SE</div>
-  `;
+`;
+
 })();
 
 /* ==============================
@@ -400,7 +419,7 @@ const data = JSON.parse(localStorage.getItem("rxReport") || "{}");
 
   // --- Duochrome ---
   document.getElementById("exam-duochrome-details").innerHTML = `
-    <div><b>Your current RX </b> ${analysisText}</div>
+    <div><h3>Your current RX ${analysisText}</h3></div>
   `;
 
 // --- Astigmatism ---
