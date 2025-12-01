@@ -448,14 +448,14 @@ if (isNaN(axisVal)) {
     `;
   } else {
     axisText = `
-      is stronger at ${axisVal}°.
+      is biased at ${axisVal}°.
       Needs ${c2ou} to balance.
     `;
   }
 }
 
 document.getElementById("exam-astig-details").innerHTML = `
-  <div><h3>Your current RX ${axisText}</h3></div>
+  <div><h3>Your current vision ${axisText}</h3></div>
 `;
 
 
