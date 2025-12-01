@@ -215,6 +215,9 @@ font-size:17px; font-weight:300;
 <div id="patient-weartype"></div>
 
   <div id="final-rx"></div>
+<span id="addOutput"></span>   <!-- already exists -->
+<span id="addOutput2"></span>  <!-- already exists -->
+
 </div>
 
 
@@ -335,10 +338,9 @@ document.getElementById("current-rx").innerHTML = `
     <div><b>RX type :</b> ${wearCap || "—"}</div>
 
 <div style="display:flex; justify-content:space-between; max-width:350px; margin:5px 0 5px 0; font-size:11px;">
-  <div style="font-size:11px;"><b>Right :</b> ${fmtVal(data.s1_od)} ${fmtVal(data.c1_od)} × ${fmtVal(data.a1_od)}</div>
-  <div style="font-size:11px;"><b>Left :</b> ${fmtVal(data.s1_os)} ${fmtVal(data.c1_os)} × ${fmtVal(data.a1_os)}</div>
+  <div style="font-size:14px;"><b>Right :</b> ${fmtVal(data.s1_od)} ${fmtVal(data.c1_od)} × ${fmtVal(data.a1_od)}</div>
+  <div style="font-size:14px;"><b>Left :</b> ${fmtVal(data.s1_os)} ${fmtVal(data.c1_os)} × ${fmtVal(data.a1_os)}</div>
 </div>
-
 
     <div style="font-size:11px;">Right SE ${fmtVal(data.nowSeDiff)} vs Left SE</div>
   </div>
@@ -521,8 +523,6 @@ if (Math.abs(rawCyl) < 0.375){
   };
 }
 
-
-
 /* ==============================
    COMFY / MANUAL FINAL RX
 ============================== */
@@ -534,15 +534,16 @@ const finalNotes = document.getElementById("final-notes");
 const finalAnalysis      = document.getElementById("final-analysis");
 const finalAnalysisSph   = document.getElementById("final-analysis-sph");
 const finalAnalysisCylAx = document.getElementById("final-analysis-cylax");
+const addOutput  = document.getElementById("addOutput");
+const addOutput2 = document.getElementById("addOutput2");
 
-
-function loadComfy(){
+function loadComfy() {
   titleFinal.textContent = "New Prescription";
 
   const fmtPlus = v => (v > 0 ? "+" + v.toFixed(2) : v.toFixed(2));
 
-  const rSph = parseFloat(data.comfyR?.sph) || 0;
-  const lSph = parseFloat(data.comfyL?.sph) || 0;
+  const rSph = (parseFloat(data.comfyR?.sph) || 0) + 0.25;
+  const lSph = (parseFloat(data.comfyL?.sph) || 0) + 0.25;
 
   const rCyl = parseFloat(data.comfyR?.cyl) || 0;
   const lCyl = parseFloat(data.comfyL?.cyl) || 0;
@@ -551,7 +552,7 @@ function loadComfy(){
   const lAxis = parseFloat(data.comfyL?.axis) || 0;
 
   const rDist = rSph - 0.25,  lDist = lSph - 0.25;
-  const rComp = rSph + 0.50,  lComp = lSph + 0.50;
+  const rComp = rSph + 0.25,  lComp = lSph + 0.25;
 
   const rCL_bal  = convertToCL(rSph,  rCyl, rAxis);
   const lCL_bal  = convertToCL(lSph,  lCyl, lAxis);
@@ -561,7 +562,6 @@ function loadComfy(){
 
   const rCL_comp = convertToCL(rComp, rCyl, rAxis);
   const lCL_comp = convertToCL(lComp, lCyl, lAxis);
-
 
   // === RX HTML ===
   finalRX.innerHTML = `
@@ -574,14 +574,12 @@ function loadComfy(){
       <b>Spectacles</b><br>
       <span class="cl-line"><b>Contact Lens</b></span>
     </div>
-
     <div>
       <b>Right :</b> ${fmtPlus(rSph)} ${fmtPlus(rCyl)} × ${rAxis}<br>
       <span class="cl-line">
         Right : ${fmtPlus(rCL_bal.S)} ${rCL_bal.C ? fmtPlus(rCL_bal.C) + " × " + rCL_bal.A : ""}
       </span>
     </div>
-
     <div>
       <b>Left :</b> ${fmtPlus(lSph)} ${fmtPlus(lCyl)} × ${lAxis}<br>
       <span class="cl-line">
@@ -597,14 +595,12 @@ function loadComfy(){
       <b>Spectacles</b><br>
       <span class="cl-line"><b>Contact Lens</b></span>
     </div>
-
     <div>
       <b>Right :</b> ${fmtPlus(rDist)} ${fmtPlus(rCyl)} × ${rAxis}<br>
       <span class="cl-line">
         Right : ${fmtPlus(rCL_dist.S)} ${rCL_dist.C ? fmtPlus(rCL_dist.C) + " × " + rCL_dist.A : ""}
       </span>
     </div>
-
     <div>
       <b>Left :</b> ${fmtPlus(lDist)} ${fmtPlus(lCyl)} × ${lAxis}<br>
       <span class="cl-line">
@@ -613,38 +609,22 @@ function loadComfy(){
     </div>
   </div>
 
-  <!-- C -->
-  <div><b>C. Laptop / Computer (+0.50) :</b></div>
-  <div style="display:flex; justify-content:space-between; gap:8px; margin:6px 0 0px 0;">
-    <div style="width:85px;">
-      <b>Spectacles</b><br>
-      <span class="cl-line"><b>Contact Lens</b></span>
-    </div>
-
-    <div>
-      <b>Right :</b> ${fmtPlus(rComp)} ${fmtPlus(rCyl)} × ${rAxis}<br>
-      <span class="cl-line">
-        Right : ${fmtPlus(rCL_comp.S)} ${rCL_comp.C ? fmtPlus(rCL_comp.C) + " × " + rCL_comp.A : ""}
-      </span>
-    </div>
-
-    <div>
-      <b>Left :</b> ${fmtPlus(lComp)} ${fmtPlus(lCyl)} × ${lAxis}<br>
-      <span class="cl-line">
-        Left : ${fmtPlus(lCL_comp.S)} ${lCL_comp.C ? fmtPlus(lCL_comp.C) + " × " + lCL_comp.A : ""}
-      </span>
-    </div>
-  </div>
-
+  <br>
+  <div><b>Bino Difference Right VS Left Eye :</b> SE ${data.comfySeDiff || "—"}</div>
 </div>
 
-<br>
 
-<div><b>Bino Difference Right VS Left Eye :</b> SE ${data.comfySeDiff || "—"}</div>
+`;
+
+finalRX.innerHTML += `
+  <br>
+  <div>Near / Phone Add : ${data.addOutput}</div>
+  <div>Intermediate / Computer Add : ${data.addOutput2}</div>
 `;
 
 
-  // === ANALYSIS — standardized 100% same style ===
+
+  // === ANALYSIS ===
   finalNotes.textContent = data.comfyNotes || "—";
 
   finalAnalysis.innerHTML =
@@ -655,7 +635,6 @@ function loadComfy(){
 
   finalAnalysisCylAx.innerHTML =
     data.comfyAnalysisCylAx?.replace(/\n/g,"<br>") || "—";
-
 
   btnComfy.classList.remove("inactive");
   btnManual.classList.add("inactive");
