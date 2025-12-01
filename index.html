@@ -268,10 +268,6 @@ const data = JSON.parse(localStorage.getItem("rxReport") || "{}");
 (function(){
   const fullName = `${data.suffix || ""} ${data.name || ""}`.trim();
   const age = data.age || "";
-  const wear = data.currentWear || "";
-
-  const nameH2 = document.getElementById("patient-name-h2");
-  const sub = document.getElementById("patient-subdetails");
 
   if (!fullName) return;
 
@@ -284,49 +280,51 @@ const data = JSON.parse(localStorage.getItem("rxReport") || "{}");
     day % 10 === 2 && day !== 12 ? "nd" :
     day % 10 === 3 && day !== 13 ? "rd" : "th";
   const time = now.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
-
   const dateTime = `${day}${suffix} ${month} ${year} · ${time}`;
 
-  /* FIXED: now printed into exam-datetime */
   document.getElementById("exam-datetime").textContent = dateTime;
-
-  nameH2.innerHTML = `${fullName} · Age ${age}`;
-
-  const wearCap = wear ? wear.charAt(0).toUpperCase() + wear.slice(1) : "";
-  sub.innerHTML = wearCap ? `RX type: ${wearCap}` : "";
-document.getElementById("exam-datetime").textContent = dateTime;
-
+  document.getElementById("patient-name-h2").innerHTML = `${fullName} · Age ${age}`;
 })();
 
 /* ==============================
-   WEAR TYPE (copy of currentWear)
+   WEAR TYPE
 ============================== */
 (function(){
   const wear = data.wearType || "";
   const wearCap = wear ? wear.charAt(0).toUpperCase() + wear.slice(1) : "";
-
   document.getElementById("patient-weartype").innerHTML =
     wearCap ? `RX Type: ${wearCap}` : "";
 })();
-
 
 /* ==============================
    CURRENT RX
 ============================== */
 (function(){
+  const wear = data.wearType || "";
+  const wearCap = wear ? wear.charAt(0).toUpperCase() + wear.slice(1) : "";
+
   document.getElementById("current-rx").innerHTML = `
-<div style="display:flex; justify-content:space-between; max-width:350px;">
-  <div><b>Right :</b> ${data.s1_od} ${data.c1_od} × ${data.a1_od}</div>
-  <div><b>Left :</b> ${data.s1_os} ${data.c1_os} × ${data.a1_os}</div>
-</div>
-<div><b>Bino Difference Right VS Left Eye :</b> SE ${data.nowSeDiff || "—"}</div>
-`;
+
+  <div><b>RX type :</b> ${wearCap || "—"}</div>
+
+
+  <div style="display:flex; justify-content:space-between; max-width:350px; margin:5px 0 5px 0">
+
+    <div><b>Right :</b> ${data.s1_od} ${data.c1_od} × ${data.a1_od}</div>
+    <div><b>Left :</b> ${data.s1_os} ${data.c1_os} × ${data.a1_os}</div>
+  </div>
+  <div>Right SE ${data.nowSeDiff || "—"} vs Left SE</div>
+  `;
 })();
 
+/* ==============================
+   ADD DETAILS
+============================== */
 (function(){
   document.getElementById("add-details").innerHTML =
     data.add_ou ? `<div><b>Current ADD:</b> ${data.add_ou}</div>` : "";
 })();
+
 
 
 
