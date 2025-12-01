@@ -9,7 +9,7 @@
 <style>
 
 body *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size:11px !important;
+  font-size:14px !important;
 }
 
 body{
@@ -155,7 +155,6 @@ font-size:17px; font-weight:300;
 
 <div style="height:20px"></div>
 <h2>Short & Long Sighted Test</h2>
-<p class="info"><i>Info : Short & long-sighted vision is measured using the duochrome chart. The clarity in the red and blue are compared. The correct prescription makes both side equal. The ideal prescription is when the clarity is slightly better in the blue; to be exact +0.25 to balance. </i></p>
 
 <div id="exam-images-duo" style="text-align:center; margin-bottom:20px;">
   <div id="exam-duochrome-details"
@@ -180,7 +179,7 @@ font-size:17px; font-weight:300;
   <img src="https://raw.githubusercontent.com/kiaraoptometrypx/RX-calculator/main/DC%20Defect/Defects_type.png" 
        style="width:80%; margin-bottom:0px; margin-top:0px; display:block;">
 </div>
-<p style="text-align:left;" class="info"><i>Info : Prescription is the measurement of the eyeball size and shape. A normal eye measures about 22–24.5 mm, while a zero-power eye is around 23.5 mm (0.25 D is about 0.09 mm). Prescription rarely changes after the age of 20, which is in tandem with developmental years.</i></p>
+
 
 
 
@@ -189,8 +188,6 @@ font-size:17px; font-weight:300;
 <div style="height:10px"></div>
 
 <h2>Astigmatism Test</h2>
-
-<p class="info"><i>Info : Astigmatism is a condition; unequal power at different angles. This is due to certain parts of the eye is flatter than the other. The Fan Chart is used to measure the differences in clarity. The correct prescription makes all lines equal. </i></p>
 
 <div id="exam-images-fan" style="text-align:center; margin-bottom:20px;">
   <div id="exam-astig-details"
@@ -240,12 +237,12 @@ font-size:17px; font-weight:300;
 <div class="section" id="education-section">
   <h2>Understanding Your Prescription</h2>
   <div id="education-content">
-    <p><b>SPH:</b> Power for myopia / hyperopia.</p>
-    <p><b>CYL:</b> Astigmatism correction.</p>
-    <p><b>AXIS:</b> Direction of astigmatism (0–180°).</p>
-    <p><b>SE:</b> Overall focusing power.</p>
-    <p><b>DC:</b> Duochrome fine-tune balance.</p>
-    <p><b>ADD:</b> Support for near work.</p>
+<p class="info"><i>Info : Short & long-sighted vision is measured using the duochrome chart. The clarity in the red and blue are compared. The correct prescription makes both side equal. The ideal prescription is when the clarity is slightly better in the blue; to be exact +0.25 to balance. </i></p>
+
+<p class="info"><i>Info : Astigmatism is a condition; unequal power at different angles. This is due to certain parts of the eye is flatter than the other. The Fan Chart is used to measure the differences in clarity. The correct prescription makes all lines equal. </i></p>
+
+<p style="text-align:left;" class="info"><i>Info : Prescription is the measurement of the eyeball size and shape. A normal eye measures about 22–24.5 mm, while a zero-power eye is around 23.5 mm (0.25 D is about 0.09 mm). Prescription rarely changes after the age of 20, which is in tandem with developmental years.</i></p>
+
   </div>
 </div>
 
@@ -337,10 +334,11 @@ document.getElementById("current-rx").innerHTML = `
   <div style="font-size:11px;">
     <div><b>RX type :</b> ${wearCap || "—"}</div>
 
-    <div style="display:flex; justify-content:space-between; max-width:350px; margin:5px 0 5px 0;">
-      <div><b>Right :</b> ${fmtVal(data.s1_od)} ${fmtVal(data.c1_od)} × ${fmtVal(data.a1_od)}</div>
-      <div><b>Left :</b> ${fmtVal(data.s1_os)} ${fmtVal(data.c1_os)} × ${fmtVal(data.a1_os)}</div>
-    </div>
+<div style="display:flex; justify-content:space-between; max-width:350px; margin:5px 0 5px 0; font-size:11px;">
+  <div style="font-size:11px;"><b>Right :</b> ${fmtVal(data.s1_od)} ${fmtVal(data.c1_od)} × ${fmtVal(data.a1_od)}</div>
+  <div style="font-size:11px;"><b>Left :</b> ${fmtVal(data.s1_os)} ${fmtVal(data.c1_os)} × ${fmtVal(data.a1_os)}</div>
+</div>
+
 
     <div style="font-size:11px;">Right SE ${fmtVal(data.nowSeDiff)} vs Left SE</div>
   </div>
