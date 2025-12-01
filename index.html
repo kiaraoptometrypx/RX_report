@@ -155,7 +155,7 @@ font-size:17px; font-weight:300;
 
 <div style="height:20px"></div>
 <h2>Short & Long Sighted Test</h2>
-<p class="info"><i>Short & long-sighted vision is measured using the duochrome chart. The clarity in the red and blue are compared. The correct prescription makes both side equal. </i></p>
+<p class="info"><i>Info : Short & long-sighted vision is measured using the duochrome chart. The clarity in the red and blue are compared. The correct prescription makes both side equal. The ideal prescription is when the clarity is slightly better in the blue; to be exact +0.25 to balance. </i></p>
 
 <div id="exam-images-duo" style="text-align:center; margin-bottom:20px;">
   <div id="exam-duochrome-details"
@@ -166,8 +166,9 @@ font-size:17px; font-weight:300;
 <div style="width:100%; overflow:hidden; border:1px solid lightgrey; border-radius:12px; text-align:center; background:#fff;">
   <img id="exam-duochrome"
        src=""
-       style="width:100%; display:block; margin-top:70px; margin-bottom:70px; transform: scale(1.6); transform-origin: center center; margin-left:-10px">
+       style="width:100%; display:block; margin-top:-15px; margin-bottom:-40px; transform: scale(0.95); transform-origin: center center; margin-left:-10px">
 </div>
+
 
 
 
@@ -179,16 +180,17 @@ font-size:17px; font-weight:300;
   <img src="https://raw.githubusercontent.com/kiaraoptometrypx/RX-calculator/main/DC%20Defect/Defects_type.png" 
        style="width:80%; margin-bottom:0px; margin-top:0px; display:block;">
 </div>
-
+<p style="text-align:left;" class="info"><i>Info : Prescription is the measurement of the eyeball size and shape. A normal eye measures about 22–24.5 mm, while a zero-power eye is around 23.5 mm (0.25 D is about 0.09 mm). Prescription rarely changes after the age of 20, which is in tandem with developmental years.</i></p>
 
 
 
 </div>
 
-<div style="height:20px"></div>
+<div style="height:10px"></div>
 
 <h2>Astigmatism Test</h2>
-<p class="info"><i>Astigmatism is when the vision requires different power at different angles. The Fan Chart is used to measure the power. The correct prescription makes all lines equal. </i></p>
+
+<p class="info"><i>Info : Astigmatism is a condition; unequal power at different angles. This is due to certain parts of the eye is flatter than the other. The Fan Chart is used to measure the differences in clarity. The correct prescription makes all lines equal. </i></p>
 
 <div id="exam-images-fan" style="text-align:center; margin-bottom:20px;">
   <div id="exam-astig-details"
@@ -199,7 +201,12 @@ font-size:17px; font-weight:300;
          src=""
          style="width:100%; margin-top:-4px; margin-bottom:-20px; display:none;">
   </div>
+<div style="height:10px"></div>
 
+<div style="width:100%; background:#fff; display:flex; justify-content:center; overflow:hidden; border:1px solid lightgrey; border-radius:12px; margin-bottom:20px;">
+  <img src="https://raw.githubusercontent.com/kiaraoptometrypx/RX-calculator/main/FC%20Defect/Defects_type.png" 
+       style="width:80%; margin-bottom:0px; margin-top:0px; display:block;">
+</div>
 </div>
 
 </div>
@@ -406,16 +413,20 @@ document.getElementById("current-rx").innerHTML = `
     fcImg = nearestAxisImg(axisVal);
   }
 
-  let analysisText = "";
-  if (!isNaN(dcVal)) {
-    if (dcVal > 0) {
-      analysisText = `is slightly strong. Needs ${fmt(dcVal)} to balance.`;
-    } else if (dcVal < 0) {
-      analysisText = `is slightly weak. Needs ${fmt(dcVal)} to balance.`;
-    } else {
-      analysisText = `is balanced for both far and near`;
-    }
+let analysisText = "";
+if (!isNaN(dcVal)) {
+  if (Math.abs(dcVal - 0.25) < 0.01) {
+    analysisText = `is good; with slight preference for far. Needs ${fmt(dcVal)} to balance.`;
+  } else if (dcVal > 0) {
+    analysisText = `is slightly strong. Needs ${fmt(dcVal)} to balance.`;
+  } else if (dcVal < 0) {
+    analysisText = `is slightly weak. Needs ${fmt(dcVal)} to balance.`;
+  } else {
+    analysisText = `is good; with slight preference for near. Needs ${fmt(dcVal)} to balance.`;
   }
+}
+
+
 
   // --- Duochrome ---
   document.getElementById("exam-duochrome-details").innerHTML = `
@@ -444,7 +455,7 @@ if (isNaN(axisVal)) {
 }
 
 document.getElementById("exam-astig-details").innerHTML = `
-  <div><b>Your current RX </b>${axisText}</div>
+  <div><h3>Your current RX ${axisText}</h3></div>
 `;
 
 
