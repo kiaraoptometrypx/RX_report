@@ -215,8 +215,10 @@ font-size:17px; font-weight:300;
 <div id="patient-weartype"></div>
 
   <div id="final-rx"></div>
-<span id="addOutput"></span>   <!-- already exists -->
-<span id="addOutput2"></span>  <!-- already exists -->
+
+
+ 
+
 
 </div>
 
@@ -241,10 +243,21 @@ font-size:17px; font-weight:300;
   <h2>Understanding Your Prescription</h2>
   <div id="education-content">
 <p class="info"><i>Short & long-sighted vision is measured using the duochrome chart. The clarity in the red and blue are compared. The correct prescription makes both side equal. The ideal prescription is when the clarity is slightly better in the blue; to be exact +0.25 to balance. </i></p>
+<div style="max-width:100%; margin:auto;">
+  <img src="https://raw.githubusercontent.com/kiaraoptometrypx/RX_report/main/how_duochrome_works.png" 
+       alt="How duochrome works" 
+       style="width:100%; height:auto;">
+</div>
+
 
 <p class="info"><i>Astigmatism is a condition; unequal power at different angles. This is due to certain parts of the eye is flatter than the other. The Fan Chart is used to measure the differences in clarity. The correct prescription makes all lines equal. </i></p>
 
 <p style="text-align:left;" class="info"><i>Prescription is the measurement of the eyeball size and shape. A normal eye measures about 22–24.5 mm, while a zero-power eye is around 23.5 mm (0.25 D is about 0.09 mm). Prescription rarely changes after the age of 20, which is in tandem with developmental years.</i></p>
+
+
+
+
+
 
   </div>
 </div>
@@ -536,6 +549,9 @@ const finalAnalysisSph   = document.getElementById("final-analysis-sph");
 const finalAnalysisCylAx = document.getElementById("final-analysis-cylax");
 const addOutput  = document.getElementById("addOutput");
 const addOutput2 = document.getElementById("addOutput2");
+const resultNear = document.getElementById("result-near");
+const resultInter = document.getElementById("result-inter");
+
 
 function loadComfy() {
   titleFinal.textContent = "New Prescription";
@@ -568,7 +584,7 @@ function loadComfy() {
 <div style="max-width:450px; line-height:1.3;">
 
   <!-- A -->
-  <div><b>A. Balanced Vision :</b></div>
+  <br><div><u><b>Balance RX (For monitoring time to time) :</b></u></div>
   <div style="display:flex; justify-content:space-between; gap:8px; margin:6px 0 14px 0;">
     <div style="width:85px;">
       <b>Spectacles</b><br>
@@ -587,9 +603,11 @@ function loadComfy() {
       </span>
     </div>
   </div>
+  <div><b>Bino Difference Right VS Left Eye :</b> SE ${data.comfySeDiff || "—"}</div><br><br>
+
 
   <!-- B -->
-  <div><b>B. Distance Preferred :</b></div>
+  <div><u><b>Distance Preferred RX (For glasses or contact lens use) :</b></u></div>
   <div style="display:flex; justify-content:space-between; gap:8px; margin:6px 0 14px 0;">
     <div style="width:85px;">
       <b>Spectacles</b><br>
@@ -609,17 +627,16 @@ function loadComfy() {
     </div>
   </div>
 
-  <br>
-  <div><b>Bino Difference Right VS Left Eye :</b> SE ${data.comfySeDiff || "—"}</div>
+  
 </div>
 
 
 `;
 
 finalRX.innerHTML += `
-  <br>
-  <div>Near / Phone Add : ${data.addOutput}</div>
-  <div>Intermediate / Computer Add : ${data.addOutput2}</div>
+<div>Inter Add (Computer distance) : ${data.resultInter}</div>
+<div>Near Add (Phone distance) : ${data.resultNear}</div>
+
 `;
 
 
