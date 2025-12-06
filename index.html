@@ -22,7 +22,15 @@ body{
   margin:20px auto 80px auto;
   padding-bottom:40px;
 }
+.section2{
+  background: white;
+  margin-bottom:20px; padding:20px 18px;
+  border-radius:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
 .section{
+  border:1px solid grey;
   background:#fdfcf7;
   margin-bottom:20px; padding:20px 18px;
   border-radius:14px;
@@ -122,9 +130,8 @@ font-size:17px; font-weight:300;
 <body>
 
 <div id="report-container">
-
+<div class="section2">
   <!-- PATIENT HEADING -->
-  <div style="height:20px"></div>
   <div class="section" id="patient-current-section">
     <h2>Auto Report</h2>
     <h2 style="margin-top:10px" id="patient-name-h2"></h2>
@@ -139,36 +146,35 @@ font-size:17px; font-weight:300;
     <div id="add-details" style="margin-top:10px;"></div>
   </div>
 
-  <!-- SHORT & LONG SIGHTED TEST -->
-  <div class="section">
-    <h2>Short & Long Sighted Test</h2>
-    <div id="exam-images-duo" style="text-align:center; margin-bottom:20px;">
-      <div id="exam-duochrome-details" style="text-align:left"></div>
-      <div style="width:100%; overflow:hidden; border:1px solid lightgrey; border-radius:12px; text-align:center; background:#fff;">
-        <img id="exam-duochrome" src="" style="width:100%; display:block; margin-top:-15px; margin-bottom:-40px; transform: scale(0.95); transform-origin: center center; margin-left:-10px" crossOrigin="anonymous">
-      </div>
-      <div style="height:10px"></div>
-      <div style="width:100%; background:#fff; display:flex; justify-content:center; overflow:hidden; border:1px solid lightgrey; border-radius:12px; margin-bottom:20px;">
-        <img src="https://raw.githubusercontent.com/kiaraoptometrypx/RX-calculator/main/DC%20Defect/Defects_type.png" style="width:80%; margin-bottom:0; margin-top:0; display:block;">
-      </div>
+
+
+<!-- SHORT / LONG SIGHTED & ASTIGMATISM TEST -->
+<div class="section">
+  <h2>Short / Long Sighted and Astigmatism Test</h2>
+
+  <!-- Duochrome -->
+  <div id="exam-images-duo" style="text-align:center; margin-bottom:20px;">
+    <div id="exam-duochrome-details" style="text-align:left"></div>
+    <div style="width:100%; overflow:hidden; border:1px solid lightgrey; border-radius:12px; text-align:center; background:#fff;">
+      <img id="exam-duochrome" src="" style="width:100%; display:block; margin-top:-15px; margin-bottom:-40px; transform: scale(0.95); transform-origin: center center; margin-left:-10px" crossOrigin="anonymous">
     </div>
   </div>
 
-  <!-- ASTIGMATISM TEST -->
-  <div class="section">
-    <h2>Astigmatism Test</h2>
-    <div id="exam-images-fan" style="text-align:center; margin-bottom:20px;">
-      <div id="exam-astig-details" style="font-size:14px; font-weight:300; line-height:1.55; margin-top:8px; text-align:left"></div>
-      <div style="width:100%; overflow:hidden; border:1px solid lightgrey; border-radius:12px;">
-        <img id="exam-fanchart" src="" style="width:100%; margin-top:-4px; margin-bottom:-20px; display:none;" crossOrigin="anonymous">
-      </div>
-      <div style="height:10px"></div>
-      <div style="width:100%; background:#fff; display:flex; justify-content:center; overflow:hidden; border:1px solid lightgrey; border-radius:12px; margin-bottom:20px;">
-        <img src="https://raw.githubusercontent.com/kiaraoptometrypx/RX-calculator/main/FC%20Defect/Defects_type.png" style="width:80%; margin-bottom:0; margin-top:0; display:block;">
-      </div>
+  <!-- Fan Chart -->
+  <div id="exam-images-fan" style="text-align:center; margin-bottom:20px;">
+    <div id="exam-astig-details" style="font-size:14px; font-weight:300; line-height:1.55; margin-top:8px; text-align:left"></div>
+    <div style="width:100%; overflow:hidden; border:1px solid lightgrey; border-radius:12px;">
+      <img id="exam-fanchart" src="" style="width:100%; margin-top:-4px; margin-bottom:-20px; display:none;" crossOrigin="anonymous">
     </div>
   </div>
+</div>
+</div>
 
+
+
+
+
+<div class="section2">
   <!-- COMFY / MANUAL FINAL RX -->
   <div class="section" id="final-rx-section">
     <h2 id="final-rx-title">New Prescription</h2>
@@ -189,8 +195,12 @@ font-size:17px; font-weight:300;
     <h2>Extra Notes</h2>
     <div id="final-notes"></div>
   </div>
+</div>
+
+
 
   <!-- EDUCATION -->
+<div class="section2">
   <div class="section" id="education-section">
     <h2>Understanding Your Prescription</h2>
     <div id="education-content">
@@ -206,20 +216,12 @@ font-size:17px; font-weight:300;
         <img src="https://raw.githubusercontent.com/kiaraoptometrypx/RX_report/main/how_astig_works_2.png" alt="How astig works 2" style="width:100%; height:auto;">
       </div>
       <p class="info"><i>Prescription is the measurement of the eyeball size and shape. A normal eye measures about 22–24.5 mm, while a zero-power eye is around 23.5 mm (0.25 D is about 0.09 mm). Prescription rarely changes after the age of 20 as most of it happens during teenage years.</i></p>
+    <p class="disclaimer">This summary is for personal understanding only.</p>
+    <p class="footer-brand">This eye exam and report is made my Jay Lee, Optometrist and founder of Kiara Optometry 2025.</p>
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <div class="section footer-section">
-    <div class="qr-placeholder">[ WhatsApp QR Placeholder ]</div>
-    <p class="disclaimer">This summary is for personal understanding only.</p>
-    <p class="footer-brand">Kiara Optometry</p>
-  </div>
-
-  <!-- HIDDEN IMAGES FOR PDF -->
-  <img id="exam-duochrome" crossOrigin="anonymous" style="display:none;" />
-  <img id="exam-fanchart" crossOrigin="anonymous" style="display:none;" />
-
+</div>
 </div>
 
 <!-- PDF BUTTON -->
@@ -625,31 +627,86 @@ btnManual.onclick = loadManual;
 })();
 </script>
 
+
+
+
+
 <script>
 document.getElementById("downloadPDF").addEventListener("click", async () => {
-  const el = document.getElementById("report-container");
-  if (!el) return;
+  const container = document.getElementById("report-container");
+  if (!container) return;
 
   // Wait for all images to load
-  const imgs = el.querySelectorAll("img");
+  const imgs = container.querySelectorAll("img");
   await Promise.all(Array.from(imgs).map(img => {
     if (img.complete) return Promise.resolve();
     return new Promise(resolve => { img.onload = resolve; img.onerror = resolve; });
   }));
 
-  // Render as canvas
-  const canvas = await html2canvas(el, { scale: 2, useCORS: true });
+  const canvas = await html2canvas(container, { scale: 2, useCORS: true });
+  const scale = canvas.height / container.scrollHeight;
 
-  // Convert to JPG
-  const jpgData = canvas.toDataURL("image/jpeg", 0.95);
+  function getSliceRect(ids, topPad=0, bottomPad=0) {
+    const elements = ids.map(id => document.getElementById(id)).filter(el => el);
+    if (!elements.length) return { top: 0, bottom: 0 };
+    const containerRect = container.getBoundingClientRect();
+    const top = (elements[0].getBoundingClientRect().top - containerRect.top) * scale - topPad;
+    const bottom = (elements[elements.length - 1].getBoundingClientRect().bottom - containerRect.top) * scale + bottomPad;
+    return { top, bottom };
+  }
 
-  // Trigger download
+  const slices = [
+    getSliceRect([
+      "patient-current-section",
+      "current-prescription-section",
+      "exam-images-duo",
+      "exam-images-fan"
+    ], 0, 100), // Page 1
+
+    getSliceRect([
+      "final-rx-section",
+      "summary-section",
+      "extra-notes-section"
+    ], 0, 0), // Page 2
+
+    getSliceRect([
+      "education-section"
+    ], 0, 0) // Page 3
+  ];
+
+  // PADDING for final canvas
+  const PADDING = 30;
+
+  // Create stitched canvas with padding
+  const stitchedCanvas = document.createElement("canvas");
+  stitchedCanvas.width = canvas.width * slices.length + PADDING * 2;
+  stitchedCanvas.height = Math.max(...slices.map(s => s.bottom - s.top)) + PADDING * 2;
+  const ctx = stitchedCanvas.getContext("2d");
+
+  // Fill background white
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, stitchedCanvas.width, stitchedCanvas.height);
+
+  // Draw slices offset by padding
+  let xOffset = PADDING;
+  slices.forEach(slice => {
+    const height = slice.bottom - slice.top;
+    ctx.drawImage(canvas, 0, slice.top, canvas.width, height, xOffset, PADDING, canvas.width, height);
+    xOffset += canvas.width;
+  });
+
+  // Export with patient name or "Unnamed"
+  const patientName = document.getElementById("patient-name-h2")?.textContent.trim() || "Unnamed";
   const link = document.createElement("a");
-  link.href = jpgData;
-  link.download = "Prescription-Summary.jpg";
+  link.href = stitchedCanvas.toDataURL("image/jpeg", 0.95);
+link.download = patientName + " - Prescription.jpg";
   link.click();
 });
 </script>
+
+
+
+
 
 
 
