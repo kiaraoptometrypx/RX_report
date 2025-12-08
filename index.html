@@ -24,7 +24,7 @@ body{
 }
 .section2{
   background: white;
-  margin-bottom:20px; padding:20px 18px;
+  margin-bottom:20px; padding:15px;
   border-radius:14px;
   box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
@@ -32,7 +32,7 @@ body{
 .section{
   border:1px solid grey;
   background:#fdfcf7;
-  margin-bottom:20px; padding:20px 18px;
+  margin-bottom:10px; padding:15px;
   border-radius:14px;
   box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
@@ -56,12 +56,21 @@ body{
 .toggle-btn.inactive{
   background:#fff; color:black;
 }
-h2{
-  font-size:22px; font-weight:300;
+h2 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 5px 0;           /* 5px top & bottom, 0 left & right */
+  padding: 0;
+
 }
-h3{
-font-size:17px; font-weight:300;
+
+h3 {
+  font-size: 14px;
+  font-weight: 300;
+  margin: 10px 0; /* optional, if you want to remove default spacing */
+  padding: 0;
 }
+
 .subhead{
   font-size:15px; font-weight:300;
   margin-top:15px; margin-bottom:6px;
@@ -106,21 +115,27 @@ font-size:17px; font-weight:300;
 .disclaimer{ font-size:11px; opacity:.7; }
 .footer-brand{margin-top:10px; font-size:13px; font-weight:300;}
 /* PDF button also converted */
-.pdf-button{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  padding:12px 22px;
-  background:black;
-  color:white;
-  border:none;
-  border-radius:8px;
-  font-size:14px;
-  font-weight:300;
-  cursor:pointer;
-  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+.pdf-button-wrapper {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px; /* space between buttons */
 }
+
+.pdf-button {
+  padding: 12px 22px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 300;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
 .cl-line { font-size:14px; color:#333; }
 
 
@@ -133,9 +148,9 @@ font-size:17px; font-weight:300;
 <div class="section2">
   <!-- PATIENT HEADING -->
   <div class="section" id="patient-current-section">
-    <h2>Auto Report</h2>
-    <h2 style="margin-top:10px" id="patient-name-h2"></h2>
-    <div id="exam-datetime"></div>
+    <h2 id="patient-name-h2">-</h2>
+    <span id="patient-age-h2">-</span> - 
+    <span id="exam-datetime">-</span>
   </div>
 
   <!-- CURRENT PRESCRIPTION -->
@@ -144,27 +159,50 @@ font-size:17px; font-weight:300;
     <div id="patient-subdetails" style="font-size:14px;"></div>
     <div id="current-rx" style="margin-top:10px;"></div>
     <div id="add-details" style="margin-top:10px;"></div>
+<div><br>
+  <h2>OR Bal</h2>
+  <span id="rx-summary">-</span>
+</div>
+
   </div>
 
 
 
 <!-- SHORT / LONG SIGHTED & ASTIGMATISM TEST -->
-<div class="section">
-  <h2>Short / Long Sighted and Astigmatism Test</h2>
+<div class="section"	>
+  <h2>Short & Long Sighted Analysis</h2>
 
   <!-- Duochrome -->
-  <div id="exam-images-duo" style="text-align:center; margin-bottom:20px;">
     <div id="exam-duochrome-details" style="text-align:left"></div>
+
+
+
+  <div id="exam-images-duo" style="text-align:center; margin-bottom:20px;">
     <div style="width:100%; overflow:hidden; border:1px solid lightgrey; border-radius:12px; text-align:center; background:#fff;">
-      <img id="exam-duochrome" src="" style="width:100%; display:block; margin-top:-15px; margin-bottom:-40px; transform: scale(0.95); transform-origin: center center; margin-left:-10px" crossOrigin="anonymous">
+
+
+      <img id="exam-duochrome" src="" style="width:100%; display:block; margin-top:20px; margin-bottom:-10px; transform: scale(1.15); transform-origin: center center; margin-left:-10px" crossOrigin="anonymous">
+
     </div>
   </div>
 
+
+
+  <h2>Astigmatism Analysis</h2>
+
   <!-- Fan Chart -->
-  <div id="exam-images-fan" style="text-align:center; margin-bottom:20px;">
-    <div id="exam-astig-details" style="font-size:14px; font-weight:300; line-height:1.55; margin-top:8px; text-align:left"></div>
-    <div style="width:100%; overflow:hidden; border:1px solid lightgrey; border-radius:12px;">
-      <img id="exam-fanchart" src="" style="width:100%; margin-top:-4px; margin-bottom:-20px; display:none;" crossOrigin="anonymous">
+    <div id="exam-astig-details" style="text-align:left"></div>
+
+
+  <div id="exam-images-fan" style="text-align:center; margin-bottom:0px;">
+    <div style="width:100%; overflow:hidden; border:1px solid lightgrey; border-radius:12px; text-align:center; background:#fff;">
+
+
+
+      <img id="exam-fanchart" src="" style="width:100%; display:block; margin-top:50px; margin-bottom:35px; transform: scale(1.3); transform-origin: center center; margin-left:-10px" crossOrigin="anonymous">
+
+
+
     </div>
   </div>
 </div>
@@ -182,19 +220,24 @@ font-size:17px; font-weight:300;
     <div id="final-rx"></div>
   </div>
 
-  <!-- SUMMARY -->
-  <div class="section" id="summary-section">
-    <h2>Summary</h2>
-    <div id="final-analysis"></div>
-    <div id="final-analysis-sph"></div>
-    <div id="final-analysis-cylax"></div>
-  </div>
 
   <!-- EXTRA NOTES -->
   <div class="section" id="extra-notes-section">
     <h2>Extra Notes</h2>
     <div id="final-notes"></div>
   </div>
+
+
+
+  <!-- SUMMARY -->
+  <div class="section" id="summary-section">
+    <h2>Summary</h2><br>
+    <div id="final-analysis"></div>
+    <div id="final-analysis-sph"></div>
+    <div id="final-analysis-cylax"></div>
+  </div>
+
+
 </div>
 
 
@@ -225,7 +268,10 @@ font-size:17px; font-weight:300;
 </div>
 
 <!-- PDF BUTTON -->
-<button id="downloadPDF" class="pdf-button">Download PDF</button>
+<div class="pdf-button-wrapper">
+  <button id="downloadPDF" class="pdf-button">Full Report</button>
+  <button id="downloadSimple" class="pdf-button">Download JPG</button>
+</div>
 
 
 
@@ -274,21 +320,17 @@ const data = JSON.parse(localStorage.getItem("rxReport") || "{}");
     day % 10 === 2 && day !== 12 ? "nd" :
     day % 10 === 3 && day !== 13 ? "rd" : "th";
   const time = now.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
-  const dateTime = `${day}${suffix} ${month} ${year} · ${time}`;
+  const dateTime = `Test done on ${day}${suffix} ${month} ${year} · ${time}`;
 
   document.getElementById("exam-datetime").textContent = dateTime;
-  document.getElementById("patient-name-h2").innerHTML = `${fullName} · Age ${age}`;
+
+  // NEW — Separate name + age
+  document.getElementById("patient-name-h2").textContent = fullName;
+  document.getElementById("patient-age-h2").textContent = age ? `Age ${age}` : "";
 })();
 
-/* ==============================
-   WEAR TYPE
-============================== */
-(function(){
-  const wear = data.wearType || "";
-  const wearCap = wear ? wear.charAt(0).toUpperCase() + wear.slice(1) : "";
-  document.getElementById("patient-weartype").innerHTML =
-    wearCap ? `RX Type: ${wearCap}` : "";
-})();
+
+
 
 /* ==============================
    CURRENT RX
@@ -298,16 +340,13 @@ const data = JSON.parse(localStorage.getItem("rxReport") || "{}");
   const wearCap = wear ? wear.charAt(0).toUpperCase() + wear.slice(1) : "";
 const fmtVal = v => v || "—";
 document.getElementById("current-rx").innerHTML = `
-  <div style="font-size:11px;">
+  <div>
     <div><b>RX type :</b> ${wearCap || "—"}</div>
 
 <div style="display:flex; justify-content:space-between; max-width:350px; margin:5px 0 5px 0; font-size:11px;">
   <div style="font-size:14px;"><b>Right :</b> ${fmtVal(data.s1_od)} ${fmtVal(data.c1_od)} × ${fmtVal(data.a1_od)}</div>
   <div style="font-size:14px;"><b>Left :</b> ${fmtVal(data.s1_os)} ${fmtVal(data.c1_os)} × ${fmtVal(data.a1_os)}</div>
 </div>
-
-    <div style="font-size:11px;">Right SE ${fmtVal(data.nowSeDiff)} vs Left SE</div>
-  </div>
 `;
 
 })();
@@ -386,7 +425,8 @@ if (!isNaN(dcVal)) {
   } else if (dcVal < 0) {
     analysisText = `is slightly weak. Needs ${fmt(dcVal)} to balance.`;
   } else {
-    analysisText = `is good; with slight preference for near. Needs ${fmt(dcVal)} to balance.`;
+analysisText = `is good; with slight preference for intermediate range. Needs ${dcVal ? fmt(dcVal) : "+0.00"} to balance.`;
+
   }
 }
 
@@ -394,17 +434,17 @@ if (!isNaN(dcVal)) {
 
   // --- Duochrome ---
   document.getElementById("exam-duochrome-details").innerHTML = `
-    <div><h3>Your current RX ${analysisText}</h3></div>
+    <div><h3>Overall, your current vision ${analysisText}</h3></div>
   `;
 
 // --- Astigmatism ---
-let axisText = "—";
+let axisText = "is equal and optimum at all angles.";
 
 // c2ou already available
 const cylVal = parseFloat(c2ou);
 
 if (isNaN(axisVal)) {
-  axisText = "—";
+  axisText = "is equal and optimum at all angles.";
 } else {
   if (isNaN(cylVal) || cylVal === 0) {
     axisText = `
@@ -412,8 +452,8 @@ if (isNaN(axisVal)) {
     `;
   } else {
     axisText = `
-      is biased at ${axisVal}°.
-      Needs ${c2ou} to balance.
+      is stronger at ${axisVal}°.
+      It needs ${c2ou} to reduce and balance.
     `;
   }
 }
@@ -532,33 +572,12 @@ function loadComfy() {
 
   // === RX HTML ===
   finalRX.innerHTML = `
-<div style="max-width:450px; line-height:1.3;">
+<div style="max-width:450px;">
+
+
 
   <!-- A -->
-  <br><div><u><b>Balance RX (For monitoring time to time) :</b></u></div>
-  <div style="display:flex; justify-content:space-between; gap:8px; margin:6px 0 14px 0;">
-    <div style="width:85px;">
-      <b>Spectacles</b><br>
-      <span class="cl-line"><b>Contact Lens</b></span>
-    </div>
-    <div>
-      <b>Right :</b> ${fmtPlus(rSph)} ${fmtPlus(rCyl)} × ${rAxis}<br>
-      <span class="cl-line">
-        Right : ${fmtPlus(rCL_bal.S)} ${rCL_bal.C ? fmtPlus(rCL_bal.C) + " × " + rCL_bal.A : ""}
-      </span>
-    </div>
-    <div>
-      <b>Left :</b> ${fmtPlus(lSph)} ${fmtPlus(lCyl)} × ${lAxis}<br>
-      <span class="cl-line">
-        Left : ${fmtPlus(lCL_bal.S)} ${lCL_bal.C ? fmtPlus(lCL_bal.C) + " × " + lCL_bal.A : ""}
-      </span>
-    </div>
-  </div>
-  <div><b>Bino Difference Right VS Left Eye :</b> SE ${data.comfySeDiff || "—"}</div><br><br>
-
-
-  <!-- B -->
-  <div><u><b>Distance Preferred RX (For glasses or contact lens use) :</b></u></div>
+  <br><div><u><b>Distance Preferred RX (For glasses or contact lens use) :</b></u></div>
   <div style="display:flex; justify-content:space-between; gap:8px; margin:6px 0 14px 0;">
     <div style="width:85px;">
       <b>Spectacles</b><br>
@@ -577,6 +596,32 @@ function loadComfy() {
       </span>
     </div>
   </div>
+
+
+
+  <!-- B -->
+  <div><u><b>Balance RX (For monitoring time to time) :</b></u></div>
+  <div style="display:flex; justify-content:space-between; gap:8px; margin:6px 0 14px 0;">
+    <div style="width:85px;">
+      <b>Spectacles</b><br>
+      <span class="cl-line"><b>Contact Lens</b></span>
+    </div>
+    <div>
+      <b>Right :</b> ${fmtPlus(rSph)} ${fmtPlus(rCyl)} × ${rAxis}<br>
+      <span class="cl-line">
+        Right : ${fmtPlus(rCL_bal.S)} ${rCL_bal.C ? fmtPlus(rCL_bal.C) + " × " + rCL_bal.A : ""}
+      </span>
+    </div>
+    <div>
+      <b>Left :</b> ${fmtPlus(lSph)} ${fmtPlus(lCyl)} × ${lAxis}<br>
+      <span class="cl-line">
+        Left : ${fmtPlus(lCL_bal.S)} ${lCL_bal.C ? fmtPlus(lCL_bal.C) + " × " + lCL_bal.A : ""}
+      </span>
+    </div>
+  </div>
+
+
+
 
   
 </div>
@@ -632,6 +677,87 @@ btnManual.onclick = loadManual;
 
 
 <script>
+const s = data["dc-sph-ou"] || "—";
+const c = data["c2_ou"] || "—";
+const a = data["a2-ou"] || "—";
+
+document.getElementById("rx-summary").textContent = ` DC ${s} , FC ${c} x ${a}`;
+</script>
+
+
+
+<script>
+document.getElementById("downloadSimple").addEventListener("click", async () => {
+  const container = document.getElementById("report-container");
+  if (!container) return;
+
+  // Wait for all images to load
+  const imgs = container.querySelectorAll("img");
+  await Promise.all(Array.from(imgs).map(img => {
+    if (img.complete) return Promise.resolve();
+    return new Promise(resolve => { img.onload = resolve; img.onerror = resolve; });
+  }));
+
+  const canvas = await html2canvas(container, { scale: 2, useCORS: true });
+  const scale = canvas.height / container.scrollHeight;
+
+  function getSliceRect(ids, topPad=0, bottomPad=0) {
+    const elements = ids.map(id => document.getElementById(id)).filter(el => el);
+    if (!elements.length) return { top: 0, bottom: 0 };
+    const containerRect = container.getBoundingClientRect();
+    const top = (elements[0].getBoundingClientRect().top - containerRect.top) * scale - topPad;
+    const bottom = (elements[elements.length - 1].getBoundingClientRect().bottom - containerRect.top) * scale + bottomPad;
+    return { top, bottom };
+  }
+
+  const slices = [
+    getSliceRect([
+      "patient-current-section",
+      "current-prescription-section",
+
+
+    ], 0, 0), // Page 1
+
+    getSliceRect([
+      "final-rx-section",
+"extra-notes-section"
+    ], 0, 0), // Page 2
+
+  ];
+
+  // PADDING for final canvas
+  const PADDING = 30;
+
+  // Create stitched canvas with padding
+  const stitchedCanvas = document.createElement("canvas");
+  stitchedCanvas.width = canvas.width * slices.length + PADDING * 2;
+  stitchedCanvas.height = Math.max(...slices.map(s => s.bottom - s.top)) + PADDING * 2;
+  const ctx = stitchedCanvas.getContext("2d");
+
+  // Fill background white
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, stitchedCanvas.width, stitchedCanvas.height);
+
+  // Draw slices offset by padding
+  let xOffset = PADDING;
+  slices.forEach(slice => {
+    const height = slice.bottom - slice.top;
+    ctx.drawImage(canvas, 0, slice.top, canvas.width, height, xOffset, PADDING, canvas.width, height);
+    xOffset += canvas.width;
+  });
+
+  // Export
+  const patientName = document.getElementById("patient-name-h2")?.textContent.trim() || "Unnamed";
+  const link = document.createElement("a");
+  link.href = stitchedCanvas.toDataURL("image/jpeg", 0.95);
+  link.download = patientName + "_RX.jpg";
+  link.click();
+});
+</script>
+
+
+
+<script>
 document.getElementById("downloadPDF").addEventListener("click", async () => {
   const container = document.getElementById("report-container");
   if (!container) return;
@@ -665,8 +791,9 @@ document.getElementById("downloadPDF").addEventListener("click", async () => {
 
     getSliceRect([
       "final-rx-section",
+      "extra-notes-section",
       "summary-section",
-      "extra-notes-section"
+
     ], 0, 0), // Page 2
 
     getSliceRect([
@@ -699,7 +826,7 @@ document.getElementById("downloadPDF").addEventListener("click", async () => {
   const patientName = document.getElementById("patient-name-h2")?.textContent.trim() || "Unnamed";
   const link = document.createElement("a");
   link.href = stitchedCanvas.toDataURL("image/jpeg", 0.95);
-link.download = patientName + " - Prescription.jpg";
+link.download = patientName + "_Full_RX.jpg";
   link.click();
 });
 </script>
